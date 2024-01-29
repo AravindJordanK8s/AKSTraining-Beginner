@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envconfigmapdeployment
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: configmap
+  template: 
+    metadata: 
+      labels: 
+        app: configmap
+    spec: 
+      containers:
+      - name: envconfigmapdeployment
+        image: nginx
+        env:
+          - name: companyname
+            valueFrom:
+              configMapKeyRef:
+                name: multimap
+                key: companyname
+          - name: department
+            valueFrom:
+              configMapKeyRef:
+                name: multimap
+                key: department

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-application
+  labels:
+    app: backend-application
+    tier: backend 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-application
+  template:
+    metadata:
+      labels:
+        app: backend-application
+        tier: backend 
+    spec: 
+      containers:
+        - name: backend-restapp
+          image: praravind1801/deployment-backend:v1
+          ports:
+            - containerPort: 8080        

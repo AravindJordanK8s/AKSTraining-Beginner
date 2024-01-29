@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: sample-deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1 #How many pods need to be turned off in Old ReplicaSet - Always 25%.
+      maxSurge: 1 #How many pods need to be turned on in New ReplicaSet - Always 25%.
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sampleapp
+  template:  
+    metadata:
+      name: sample-deployment
+      labels:
+        app: sampleapp
+    spec:
+      containers:
+        - name: sampleapp-container
+          image: praravind1801/docker-handson-2:v1
+          ports: 
+            - containerPort: 80  
+    

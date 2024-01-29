@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: multimap
+data:
+  companyname: HexawareTechnologies
+  department: IMS

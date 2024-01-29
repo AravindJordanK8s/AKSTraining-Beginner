@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: welcome-pod
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: welcome-pod
+    image: praravind1801/docker-handson-2:v1
+    ports:
+      - containerPort: 80

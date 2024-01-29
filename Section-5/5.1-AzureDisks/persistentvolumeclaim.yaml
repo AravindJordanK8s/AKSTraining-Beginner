@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: custom-premiumdisk-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce 
+  storageClassName: custom-storageclass-premium
+  resources:
+    requests:
+      storage: 8Gi

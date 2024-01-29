@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: azure-files-deployment
+  labels:
+    app: azure-files
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: azure-files
+  template:  
+    metadata:
+      labels: 
+        app: azure-files
+    spec:
+      containers:
+        - name: azure-files-pod
+          image: praravind1801/azure-file-nginx:v1
+          ports: 
+            - containerPort: 80         
+          volumeMounts:
+            - name: azurefile
+              mountPath: "/usr/share/nginx/html/app1"
+      volumes:
+        - name: azurefile
+          persistentVolumeClaim:
+            claimName: custom-standardfile-pvc   

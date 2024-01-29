@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: requests-limits-service
+  labels:
+    app: requests-limits
+spec:
+  type: LoadBalancer
+  selector:
+    app: requests-limits
+  ports:
+    - port: 80
+      targetPort: 80

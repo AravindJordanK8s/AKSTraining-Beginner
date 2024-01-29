@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volconfigmapdeployment
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: volume
+  template: 
+    metadata: 
+      labels: 
+        app: volume
+    spec: 
+      containers:
+      - name: volconfigmapdeployment
+        image: nginx
+        volumeMounts:
+        - name: configmapvolume
+          mountPath: /etc/name
+      volumes:
+      - name: configmapvolume
+        configMap:
+          name: multimap

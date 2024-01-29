@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      name: welcome-pod
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: welcome-pod
+        image: praravind1801/docker-handson-2:v1
+        ports:
+        - containerPort: 80    

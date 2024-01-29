@@ -1,0 +1,17 @@
+employee: #Dictionary
+  name: Aravind
+  department: IMS
+  location: Chennai
+  skills: #List
+    - AzureDevOps
+    - AKS
+    - PowerShell
+    - Terraform
+  projects: #MultipleList
+    - name: WK
+      duration: 12
+    - name: Kirkland
+      duration: present
+
+--- #Document Separator
+#Another employee Details

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: requests-limits-deployment
+  labels:
+    app: requests-limits
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: requests-limits
+  template:  
+    metadata:
+      labels: 
+        app: requests-limits
+    spec:
+      containers:
+        - name: requests-limits-pod
+          image: praravind1801/ingress-backend:v1
+          ports: 
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-backend
+  strategy:
+    type: Recreate 
+  template: 
+    metadata: 
+      labels: 
+        app: mysql-backend
+    spec: 
+      containers:
+        - name: mysql
+          image: mysql:5.6
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: akstraining14
+          ports:
+            - name: mysqlport
+              containerPort: 3306   
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql    
+            - name: dbcreation-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes: 
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: custom-premiumdisk-pvc
+        - name: dbcreation-script
+          configMap:
+            name: usermanagement-dbcreation-script
