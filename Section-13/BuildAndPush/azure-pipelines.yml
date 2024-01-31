@@ -1,0 +1,86 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+- group: PipelineTrigger
+
+parameters:
+  - name: ImageTag
+    type: string
+
+stages:
+- stage: Build
+  displayName: Build Image and Push to ACR
+  jobs:
+  - job: Build
+    displayName: Build Image
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Push to ACR
+      inputs:
+        containerRegistry: 'akstraininghexa-svc'
+        repository: 'sampleapp'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          ${{ parameters.ImageTag }}
+
+    - task: AzureCLI@2
+      displayName: Image Check in ACR
+      inputs:
+        azureSubscription: 'Pay as you go(367b63aa-a098-4a82-ae19-38e651f97b30)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          ACR_NAME=akstraininghexa
+          REPO_NAME=sampleapp
+          az acr repository show-tags --name $ACR_NAME --repository $REPO_NAME --output table
+
+- stage: TriggerCD
+  displayName: Trigger the CD Pipeline
+  dependsOn: Build
+  jobs:
+  - job: TriggerCD
+    displayName: Deploy Pipeline Trigger
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'Pay as you go(367b63aa-a098-4a82-ae19-38e651f97b30)'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          param (
+              $ImageTag,
+              $pipelineID,
+              $CDPatToken,
+              $CDPipelineBranch
+          )
+          Write-Output "The ImageTag is $ImageTag"
+          $url = $pipelineID
+          $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($CDPatToken)"))       
+          $JSON = @"
+          {
+            "resources":
+            {
+              "repositories":
+                {
+                  "self":{"refName":"$CDPipelineBranch"}
+                }
+              },
+              "templateParameters": {
+                "ImageTag": "$ImageTag"
+              }
+          }  
+          "@
+          Write-Output $JSON
+          $response = Invoke-RestMethod -Uri $url -Headers @{Authorization = "Basic $token"} -Method Post -Body $JSON -ContentType application/json
+        arguments: '-ImageTag ${{ parameters.ImageTag }} -pipelineID $(pipelineID) -CDPatToken $(CDPatToken) -CDPipelineBranch $(CDPipelineBranch)'
+   
+    

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-autoscaler-service
+  labels:
+    app: cluster-autoscaler
+spec:
+  type: LoadBalancer
+  selector:
+    app: cluster-autoscaler
+  ports:
+    - port: 80
+      targetPort: 80

@@ -1,0 +1,22 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: worker-app-deployment
+  labels:
+    tier: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: workerapp
+      tier: middle
+  template:
+    metadata:
+      name: worker-app-pod
+      labels:
+        name: workerapp
+        tier: middle
+    spec:
+      containers:
+        - name: worker-app-pod 
+          image: kodekloud/examplevotingapp_worker:v1

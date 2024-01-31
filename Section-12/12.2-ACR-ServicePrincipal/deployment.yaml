@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: acrimage-deployment
+  labels:
+    app: acr-image
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: acr-image
+  template:  
+    metadata:
+      labels: 
+        app: acr-image
+    spec:
+      containers:
+        - name: acr-image-pod
+          image: acrtraininghexa.azurecr.io/acrimage/sample:v1
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 80
+      imagePullSecrets:
+        - name: acr-secret-imagepull 

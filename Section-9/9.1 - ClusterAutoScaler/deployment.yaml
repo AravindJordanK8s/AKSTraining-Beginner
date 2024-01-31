@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: cluster-autoscaler-deployment
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:  
+    metadata:
+      labels: 
+        app: cluster-autoscaler
+    spec:
+      containers:
+        - name: cluster-autoscaler-pod
+          image: praravind1801/ingress-backend:v1
+          ports: 
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"

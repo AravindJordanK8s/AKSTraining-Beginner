@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: horizontal-pod-autoscaler-deployment
+  labels:
+    app: horizontal-pod-autoscaler
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: horizontal-pod-autoscaler
+  template:  
+    metadata:
+      labels: 
+        app: horizontal-pod-autoscaler
+    spec:
+      containers:
+        - name: horizontal-pod-autoscaler
+          image: praravind1801/ingress-backend:v1
+          ports: 
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
