@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: ingress-app-date-deployment
+  labels:
+    app: ingress-date
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-date
+  template:  
+    metadata:
+      labels: 
+        app: ingress-date
+    spec:
+      containers:
+        - name: ingress-date-pod
+          image: praravind1801/ingress-date:v1
+          ports: 
+            - containerPort: 80

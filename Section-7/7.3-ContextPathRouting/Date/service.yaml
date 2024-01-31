@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-date-app-service
+  labels:
+    app: ingress-date
+spec:
+  type: ClusterIP
+  selector:
+    app: ingress-date
+  ports:
+    - port: 80
+      targetPort: 80

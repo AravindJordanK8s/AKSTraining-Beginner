@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-date-service
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /date
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-date-app-service
+                port: 
+                  number: 80

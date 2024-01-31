@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-tools-service
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /tools
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-tools-app-service
+                port: 
+                  number: 80

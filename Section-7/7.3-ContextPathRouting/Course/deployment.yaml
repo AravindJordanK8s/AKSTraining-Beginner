@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: ingress-app-course-deployment
+  labels:
+    app: ingress-course
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-course
+  template:  
+    metadata:
+      labels: 
+        app: ingress-course
+    spec:
+      containers:
+        - name: ingress-course-pod
+          image: praravind1801/ingress-course:v1
+          ports: 
+            - containerPort: 80

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: ingress-app-tools-deployment
+  labels:
+    app: ingress-tools
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-tools
+  template:  
+    metadata:
+      labels: 
+        app: ingress-tools
+    spec:
+      containers:
+        - name: ingress-tools-pod
+          image: praravind1801/ingress-tools:v1
+          ports: 
+            - containerPort: 80

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: ingress-app-deployment
+  labels:
+    app: ingress-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-app
+  template:  
+    metadata:
+      labels: 
+        app: ingress-app
+    spec:
+      containers:
+        - name: ingress-app-pod
+          image: praravind1801/ingress-backend:v1
+          ports: 
+            - containerPort: 80
